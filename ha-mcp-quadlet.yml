@@ -1,0 +1,32 @@
+---
+name: Deploy Home Assistant MCP Server container
+hosts: n305.dumont-lab.lan
+vars_files:
+  - secrets_folder/ovirt-pass
+
+vars:
+  podman_run_as_user: container-user
+
+tasks:
+  - name: Apply quadlet
+    include_role:
+      name: redhat.rhel_system_roles.podman
+    vars:
+      podman_quadlet_specs:
+        - name: ha-mcp
+          type: container
+          description: Home Assistant MCP Server
+          Container:
+            ContainerName: ha-mcp
+            image: ghcr.io/homeassistant-ai/ha-mcp:latest
+            AutoUpdate: registry
+            Exec: "fastmcp run fastmcp-http.json"
+            PublishPort: "3500:3000"
+            Environment:
+              HOMEASSISTANT_URL: "http://192.168.75.36:8123"
+              HOMEASSISTANT_TOKEN: "{{ vault_home_assistant_mcp_token }}"
+              MCP_PORT: "3000"
+          Service:
+            Restart: always
+          Install:
+            WantedBy: default.target
