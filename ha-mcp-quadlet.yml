@@ -24,7 +24,7 @@
               PublishPort: "3500:8087"  # Internal FastMCP SSE port is 8087
               Environment:
                 HOMEASSISTANT_URL: "http://192.168.75.36:8123"
-                HOMEASSISTANT_TOKEN: "{{ ha-long-lived-token }}"
+                HOMEASSISTANT_TOKEN: "{{ ha_long_lived_token }}"
                 MCP_PORT: "3000"
             Service:
               Restart: always
