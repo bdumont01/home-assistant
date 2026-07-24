@@ -20,8 +20,8 @@ tasks:
             ContainerName: ha-mcp
             image: ghcr.io/homeassistant-ai/ha-mcp:latest
             AutoUpdate: registry
-            Exec: "fastmcp run fastmcp-http.json"
-            PublishPort: "3500:3000"
+            Exec: "fastmcp run fastmcp-sse.json"
+            PublishPort: "3500:8087"  # Internal FastMCP SSE port is 8087
             Environment:
               HOMEASSISTANT_URL: "http://192.168.75.36:8123"
               HOMEASSISTANT_TOKEN: "{{ vault_home_assistant_mcp_token }}"
