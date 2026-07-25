@@ -28,7 +28,7 @@
               Exec=fastmcp run fastmcp-sse.json
               PublishPort=3500:8087
               Environment=HOMEASSISTANT_URL=http://192.168.75.36:8123
-              Environment=HOMEASSISTANT_TOKEN={{ vault_home_assistant_mcp_token }}
+              Environment=HOMEASSISTANT_TOKEN={{ ha_long_lived_token }}
 
               [Service]
               Restart=always
