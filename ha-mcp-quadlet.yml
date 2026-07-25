@@ -12,21 +12,27 @@
       include_role:
         name: redhat.rhel_system_roles.podman
       vars:
+        podman_run_as_user: container-user
         podman_quadlet_specs:
           - name: ha-mcp
             type: container
-            description: Home Assistant MCP Server
-            Container:
-              ContainerName: ha-mcp
-              image: ghcr.io/homeassistant-ai/ha-mcp:latest
-              AutoUpdate: registry
-              Exec: "fastmcp run fastmcp-sse.json"
-              PublishPort: "3500:8087"  # Internal FastMCP SSE port is 8087
-              Environment:
-                HOMEASSISTANT_URL: "http://192.168.75.36:8123"
-                HOMEASSISTANT_TOKEN: "{{ ha_long_lived_token }}"
-                MCP_PORT: "3000"
-            Service:
-              Restart: always
-            Install:
-              WantedBy: default.target
+            state: started
+            file_content: |
+              [Unit]
+              Description=Home Assistant MCP Server
+
+              [Container]
+              ContainerName=ha-mcp
+              Image=ghcr.io/homeassistant-ai/ha-mcp:latest
+              AutoUpdate=registry
+              Exec=fastmcp run fastmcp-sse.json
+              PublishPort=3500:8087
+              Environment=HOMEASSISTANT_URL=http://192.168.75.36:8123
+              Environment=HOMEASSISTANT_TOKEN={{ vault_home_assistant_mcp_token }}
+
+              [Service]
+              Restart=always
+
+              [Install]
+              WantedBy=default.target
+
