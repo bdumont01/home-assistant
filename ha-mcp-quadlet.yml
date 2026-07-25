@@ -25,13 +25,15 @@
               ContainerName=ha-mcp
               Image=ghcr.io/homeassistant-ai/ha-mcp:latest
               AutoUpdate=registry
-              Exec=fastmcp run fastmcp-sse.json
-              PublishPort=3500:8087
+              PublishPort=3500:8086
               Environment=HOMEASSISTANT_URL=http://192.168.75.36:8123
               Environment=HOMEASSISTANT_TOKEN={{ ha_long_lived_token }}
+              Environment=MCP_PORT=8086
+              Environment=PYTHONUNBUFFERED=1
 
               [Service]
               Restart=always
+              RestartSec=5s
 
               [Install]
               WantedBy=default.target
