@@ -26,6 +26,9 @@
               Image=ghcr.io/homeassistant-ai/ha-mcp:latest
               AutoUpdate=registry
               PublishPort=3500:8086
+
+              Exec=ha-mcp-web
+
               Environment=HOMEASSISTANT_URL=https://192.168.75.36:8123
               Environment=HOMEASSISTANT_VERIFY_SSL=false
               Environment=HOMEASSISTANT_TOKEN={{ ha_long_lived_token }}
